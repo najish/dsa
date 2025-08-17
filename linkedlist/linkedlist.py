@@ -15,6 +15,7 @@ class LinkedList:
 
     def __init__(self):
         self.head = None
+        self.length = 0
         
 
     def printList(self):
@@ -31,7 +32,8 @@ class LinkedList:
         head = self.head 
         node = self.Node(data)
         node.next = head 
-        self.head = node 
+        self.head = node
+        self.length += 1
 
     def addTail(self,data):
         head = self.head
@@ -41,14 +43,42 @@ class LinkedList:
             while head.next is not None:
                 head = head.next
             head.next = self.Node(data)
-    
+        self.length += 1
 
     def get_number(self, head):
         if head is None:
             return 0
         return self.get_number(head.next) * 10 + head.data 
+    
+    
 
 
+    def remove_node(self,data):
+        head = self.head 
+
+        if self.length == 0:
+            return 
+
+        if head is None:
+            return 
+        
+        current = head 
+        prev = next = None
+
+        while current is not None:
+            next = current.next 
+            if current.data == data:
+                if prev is None:
+                    self.head = current.next 
+                else:
+                    prev.next = next
+            current = current.next 
+
+        self.length -= 1
+
+                
+    def __len__(self):
+        return self.length
 
 
 def printList(head):
@@ -72,8 +102,6 @@ list2.addTail(6)
 list2.addTail(8)
 list2.addTail(7)
 
-number1 = list.get_number(list.head)
-number2 = list2.get_number(list2.head)
+print(len(list2))
 
-print(number1 + number2)
 
