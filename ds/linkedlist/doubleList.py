@@ -1,4 +1,5 @@
-from ds.linkedlist.Error.DoubleListError import InvalidOperationError
+from re import S
+from ds.linkedlist.Error.DoubleListError import InvalidOperationError,EmptyListError
 
 
 class DoubleList:
@@ -28,7 +29,6 @@ class DoubleList:
                 next = current.next
                 current.prev = node 
                 node.next = current 
-                self.head = node 
             self.length += 1
         except InvalidOperationError as e:
             print(f"invalid oprationsdfaslfa: {e}")
@@ -51,6 +51,36 @@ class DoubleList:
             self.length += 1
         except Exception as e:
             print(f"exception: {e}")
+
+
+    def insertAtIndex(self,index,data):
+        try:
+            if index < 0 or self.length < index:
+                raise InvalidOperationError(f'Failed to Insert at index: {index}')
+            prev = None 
+            current = self.head 
+            currentIndex = -1 
+            while current is not None:
+                currentIndex += 1
+                if currentIndex == index:
+                    node = self.Node(data)
+                    if prev is None:
+                        node.next = self.head 
+                        self.head = node
+                        self.length += 1
+                    else:
+                        prev.next = node 
+                        node.prev = prev 
+                        node.next = current 
+                        current.next = node 
+                        self.length += 1
+                prev = current
+                current = current.next 
+            raise InvalidOperationError('Invalid Index is given')
+        except InvalidOperationError as e:
+            print(f"Invalid Index: {e}")
+        except Exception as e:
+            pass 
 
     
     # dundder method
@@ -82,5 +112,7 @@ if __name__ == "__main__":
     list.insertAtFirst(20)
     list.insertAtFirst(20)
     list.insertAtFirst(20)
+    list.insertAtIndex(-5,20)
+    list.insertAtIndex(2,80)
     list.printList()
     print(len(list))
